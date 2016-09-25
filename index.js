@@ -27,10 +27,11 @@ var indexName = 'bcycle_greatrides';
 var port = Number(process.env.PORT || 3000);
 app.listen(port, function () {
 	console.log('App server is running on http://localhost:' + port);
+	console.log('Elasticsearch Host:' + ES_Host);
 	clearInterval(interval);
 	var interval = setInterval(function() {
 		getStatus(); // gets station_status every 60 seconds and indexes to elasticsearch
-	}, 10000);
+	}, 60000);
 });
 
 
