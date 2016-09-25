@@ -43,7 +43,7 @@ app.get('/', function (req, res) {
 // Alert Webhook Test Endpoint (pings zapier on refresh)
 app.get('/alert_webhook', function (req, res) {
 	alertMessage = { new_bikes_available: 1 };
-	sendMessage();
+	sendAlert();
 	res.send(JSON.stringify(alertMessage));
 });
 
