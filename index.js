@@ -10,9 +10,9 @@ var app = express();
 //var ES_Host = (process.env.ELASTIC_URL || 'https://site:fec45077f659f7de428931b20423cbde@dori-us-east-1.searchly.com');
 //var ES_Host = (process.env.ELASTIC_URL || 'http://localhost:9200/');
 var ES_Host = (process.env.ELASTIC_URL || 'https://3590b9d403c87e0697b6:8c2e5209a1@f08f4b1b.qb0x.com:30242');
-var station_information = 'https://gbfs.bcycle.com/bcycle_greatrides/station_status.json';
+var station_information = 'https://gbfs.bcycle.com/bcycle_greatrides/station_information.json';
 var station_status = 'https://gbfs.bcycle.com/bcycle_greatrides/station_status.json';
-var system_pricing_plans = 'https://gbfs.bcycle.com/bcycle_greatrides/station_status.json';
+var system_pricing_plans = 'https://gbfs.bcycle.com/bcycle_greatrides/system_pricing_plans.json';
 var catchURL = 'https://hooks.zapier.com/hooks/catch/516104/652m5f/';
 
 /* Elasticsearch Variables */
@@ -70,8 +70,6 @@ app.get('/new_station_status', function (req, res) {
 	res.send( getStatus() );
 });
 
-//var refresh = setInterval(refreshMe, 60000);
-
 // Get the Station Status and index it into elasticsearch
 function getStatus() {
 	request({
@@ -94,14 +92,38 @@ function getStatus() {
 
 // Elasticsearch Index Function
 function indexStatus(statusBody) {
+
+	// Index Full Status Feed
 	elasticClient.index({
 	  index: 'bcycle_greatrides',
 	  type: 'station_status',
 	  id: statusBody.last_updated,
-		body: statusBody.data,
+		timestamp: statusBody.last_updated,
+		body: {
+			date: statusBody.last_updated,
+			stations: statusBody.data.stations,
+		},
 		refresh: true
 	}, function (error, response) {
 		console.log('Index Updated');
 		console.log(response);
 	});
+
+	// Index Individual Stations
+	arrStations = statusBody.data.stations;
+	for (var i = 0, len = arrStations.length; i < len; i++) {
+		elasticClient.index({
+		  index: arrStations[i].station_id,
+		  type: 'station_status',
+		  id: statusBody.last_updated,
+			body: {
+				stations: arrStations[i],
+			},
+			refresh: true
+		}, function (error, response) {
+			console.log('Index Updated:');
+			console.log(response);
+		});
+	}
+
 }
