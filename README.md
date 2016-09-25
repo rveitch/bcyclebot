@@ -5,7 +5,7 @@ Auto-indexing, JSON feed, webhook, zap alert generating magic machine for the Ha
 - [Nick Waverek](nick@waverek.com) - Data Science and Idea Engineer
 - [Ryan Veitch](ryan.r.veitch@gmail.com) - Caffeine-Fueled Code Development
 
-### Links
+## Links
 - [Node.js Bot Heroku Deployment](https://bcyclebot.herokuapp.com/)
 - [Sift Search UI](https://fccpublicsearch.herokuapp.com/bcycle_greatrides/station_status/_search)
 - [Google Sheets Auto-populating spreadsheet](https://docs.google.com/a/forumcomm.com/spreadsheets/d/1PHnK5gBgLj9dDTqvlfWdk1GwOkpqDN0xToZomFWX1UY/edit?usp=sharing)
@@ -13,4 +13,4 @@ Auto-indexing, JSON feed, webhook, zap alert generating magic machine for the Ha
 - [Zapier App & Webhook Alert Zaps](#) (*coming soon*)
 
 ## Overview
-...words.
+...words...coming soon.
