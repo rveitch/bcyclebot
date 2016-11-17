@@ -1,15 +1,14 @@
 var express = require('express');
-//var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 
+//var bodyParser = require('body-parser');
 //app.use(bodyParser.urlencoded({extended: false}));
 //app.use(bodyParser.json());
 
 /* Custom Variables */
-//var ES_Host = (process.env.ELASTIC_URL || 'https://site:fec45077f659f7de428931b20423cbde@dori-us-east-1.searchly.com');
-//var ES_Host = (process.env.ELASTIC_URL || 'http://localhost:9200/');
-var ES_Host = (process.env.ELASTIC_URL || 'https://3590b9d403c87e0697b6:8c2e5209a1@f08f4b1b.qb0x.com:30242');
+var port = Number(process.env.PORT || 3000);
+var ES_Host = (process.env.ELASTIC_URL || 'http://localhost:9200/');
 var station_information = 'https://gbfs.bcycle.com/bcycle_greatrides/station_information.json';
 var station_status = 'https://gbfs.bcycle.com/bcycle_greatrides/station_status.json';
 var system_pricing_plans = 'https://gbfs.bcycle.com/bcycle_greatrides/system_pricing_plans.json';
@@ -23,8 +22,7 @@ var elasticClient = new elasticsearch.Client({
 });
 var indexName = 'bcycle_greatrides';
 
-// Server Listen
-var port = Number(process.env.PORT || 3000);
+
 app.listen(port, function () {
 	console.log('App server is running on http://localhost:' + port);
 	console.log('Elasticsearch Host:' + ES_Host);
@@ -36,9 +34,11 @@ app.listen(port, function () {
 
 
 // Server frontpage
+// Listen for requests on all endpoints (non-wildcard '*')
 app.get('/', function (req, res) {
-    res.send('This is bcylcle Server');
+	res.send('This is bcylcle Server');
 });
+
 
 // Alert Webhook Test Endpoint (pings zapier on refresh)
 app.get('/alert_webhook', function (req, res) {
@@ -46,6 +46,7 @@ app.get('/alert_webhook', function (req, res) {
 	sendAlert();
 	res.send(JSON.stringify(alertMessage));
 });
+
 
 // Function for sending alert messages to a catch url endpoint
 function sendAlert() {
@@ -65,10 +66,12 @@ function sendAlert() {
     });
 };
 
+
 // Callback Endpoint: New Station Status
 app.get('/new_station_status', function (req, res) {
 	res.send( getStatus() );
 });
+
 
 // Get the Station Status and index it into elasticsearch
 function getStatus() {
@@ -89,6 +92,7 @@ function getStatus() {
 	})
 
 }
+
 
 // Elasticsearch Index Function
 function indexStatus(statusBody) {
