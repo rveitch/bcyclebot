@@ -13,4 +13,4 @@ Auto-indexing, JSON feed, webhook, zap alert generating magic machine for the Ha
 - [Zapier App & Webhook Alert Zaps](#) (*coming soon*)
 
 ## Overview
-...words...coming soon.
+[![GBFS Proxy Video](http://i3.ytimg.com/vi/rTuAy_5AkBA/hqdefault.jpg)](https://www.youtube.com/watch?v=rTuAy_5AkBA)
